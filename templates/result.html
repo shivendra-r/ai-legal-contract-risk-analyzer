@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Legal Contract— Analysis Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0a0a0f;
+      --ink-2: #14141e;
+      --ink-3: #1c1c2a;
+      --gold: #c9a84c;
+      --gold-dim: #8a6e2e;
+      --gold-glow: rgba(201,168,76,0.12);
+      --cream: #f0ece2;
+      --cream-dim: #b8b09a;
+      --muted: #4a4a5e;
+      --danger: #c04040;
+      --danger-glow: rgba(192,64,64,0.12);
+      --warn: #c07a30;
+      --warn-glow: rgba(192,122,48,0.12);
+      --safe: #3a7a5c;
+      --safe-glow: rgba(58,122,92,0.12);
+      --border: rgba(201,168,76,0.18);
+      --border-subtle: rgba(255,255,255,0.06);
+    }
+
+    [data-theme="light"] {
+  --ink: #f4efe6;
+  --ink-2: #fbf8f2;
+  --ink-3: #f7f2ea;
+
+  --gold: #a57c2b;
+  --gold-dim: #87631f;
+  --gold-glow: rgba(165,124,43,0.08);
+
+  --cream: #2f2a24;
+  --cream-dim: #5f564b;
+
+  --muted: #7d7568;
+
+  --danger: #b34d4d;
+
+  --border: rgba(165,124,43,0.15);
+  --border-subtle: rgba(0,0,0,0.08);
+}
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* — NAV — */
+    nav {
+      position: sticky;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      border-bottom: 0.5px solid var(--border-subtle);
+      backdrop-filter: blur(16px);
+      background: var(--nav-bg);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+    }
+    .logo span { color: var(--cream); }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--cream-dim);
+      background: rgba(255,255,255,0.05);
+      border: 0.5px solid var(--border-subtle);
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-back:hover { color: var(--cream); background: rgba(255,255,255,0.08); }
+    .btn-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; }
+
+    .theme-btn{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--ink-2);
+  color:var(--gold);
+  cursor:pointer;
+  font-size:1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all .25s ease;
+}
+
+.theme-btn:hover{
+  transform:translateY(-2px);
+  background:var(--gold-glow);
+}
+
+    /* — PAGE WRAPPER — */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3.5rem 3rem 6rem;
+    }
+
+    /* — REPORT HEADER — */
+    .report-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .report-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.7rem;
+    }
+
+    .report-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      line-height: 1.15;
+    }
+
+    .report-timestamp {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    /* — HERO METRICS GRID — */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.5s 0.1s ease both;
+    }
+
+    .metric-card {
+      background: var(--ink-2);
+      border: 0.5px solid var(--border-subtle);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card.primary {
+      grid-column: span 1;
+      border-color: var(--border);
+      background: linear-gradient(135deg, var(--ink-2) 60%, rgba(201,168,76,0.06));
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .metric-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .metric-value.risk-high { color: #e06060; }
+    .metric-value.risk-moderate { color: #d4974a; }
+    .metric-value.risk-low { color: #5aac82; }
+
+    .metric-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .risk-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+    }
+
+    .risk-badge.high { background: var(--danger-glow); color: #e06060; border: 0.5px solid rgba(192,64,64,0.3); }
+    .risk-badge.moderate { background: var(--warn-glow); color: #d4974a; border: 0.5px solid rgba(192,122,48,0.3); }
+    .risk-badge.low { background: var(--safe-glow); color: #5aac82; border: 0.5px solid rgba(58,122,92,0.3); }
+
+    /* — CHART + SCORE SECTION — */
+    .score-section {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.5s 0.2s ease both;
+    }
+
+    .chart-card {
+      background: var(--ink-2);
+      border: 0.5px solid var(--border-subtle);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chart-wrap {
+      position: relative;
+      width: 160px; height: 160px;
+    }
+
+    .chart-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .chart-center-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .chart-center-label {
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    .chart-legend {
+      margin-top: 1.25rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+    }
+
+    .legend-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend-label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--cream-dim);
+    }
+
+    .legend-val { color: var(--cream); font-weight: 400; }
+
+    /* — RISK PROGRESS BAR — */
+    .progress-card {
+      background: var(--ink-2);
+      border: 0.5px solid var(--border-subtle);
+      border-radius: 1rem;
+      padding: 1.75rem;
+    }
+
+    .progress-title {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .risk-meter {
+      position: relative;
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      margin-bottom: 0.6rem;
+      overflow: hidden;
+    }
+
+    .risk-meter-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .risk-meter-fill.high { background: linear-gradient(90deg, #8a2020, #e06060); }
+    .risk-meter-fill.moderate { background: linear-gradient(90deg, #7a4a10, #d4974a); }
+    .risk-meter-fill.low { background: linear-gradient(90deg, #1a5c38, #5aac82); }
+
+    .risk-scale {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 2rem;
+    }
+
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .breakdown-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .breakdown-label {
+      font-size: 0.8rem;
+      color: var(--cream-dim);
+      min-width: 120px;
+    }
+
+    .breakdown-bar-wrap {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .breakdown-bar {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .breakdown-count {
+      font-size: 0.8rem;
+      color: var(--cream);
+      font-weight: 400;
+      min-width: 28px;
+      text-align: right;
+    }
+
+    /* — CLAUSE LIST — */
+    .clauses-section {
+      background: var(--ink-2);
+      border: 0.5px solid var(--border-subtle);
+      border-radius: 1rem;
+      overflow: hidden;
+      animation: fadeUp 0.5s 0.3s ease both;
+    }
+
+    .clauses-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 1.75rem;
+      border-bottom: 0.5px solid var(--border-subtle);
+    }
+
+    .clauses-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .clauses-count {
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.3rem 0.7rem;
+      background: var(--danger-glow);
+      color: #e06060;
+      border: 0.5px solid rgba(192,64,64,0.25);
+      border-radius: 2rem;
+    }
+
+    .clause-item {
+      border-bottom: 0.5px solid var(--border-subtle);
+      padding: 1.5rem 1.75rem;
+      transition: background 0.2s;
+    }
+
+    .clause-item:last-child { border-bottom: none; }
+    .clause-item:hover { background: rgba(255,255,255,0.02); }
+
+    .clause-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      gap: 1rem;
+    }
+
+    .clause-number {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .clause-prob {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #e06060;
+    }
+
+    .clause-text {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--cream-dim);
+      font-style: italic;
+      border-left: 2px solid rgba(192,64,64,0.4);
+      padding-left: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .clause-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .clause-tag {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 0.3rem;
+      background: var(--danger-glow);
+      color: #e06060;
+      border: 0.5px solid rgba(192,64,64,0.2);
+    }
+
+    /* — NO RISK STATE — */
+    .no-risk {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .no-risk-icon {
+      width: 56px; height: 56px;
+      background: var(--safe-glow);
+      border: 0.5px solid rgba(58,122,92,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .no-risk-icon svg { width: 24px; height: 24px; stroke: #5aac82; fill: none; }
+    .no-risk h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem; color: #5aac82; }
+    .no-risk p { font-size: 0.85rem; color: var(--muted); }
+
+    /* — ANIMATIONS — */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* — RESPONSIVE — */
+    @media (max-width: 680px) {
+      nav { padding: 1rem 1.5rem; }
+      .page { padding: 2rem 1.5rem 4rem; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .metric-card.primary { grid-column: span 2; }
+      .score-section { grid-template-columns: 1fr; }
+      .chart-card { flex-direction: row; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+  <div class="logo">AI-Based <span>Risk Prediction</span></div>
+
+  <div style="display:flex;align-items:center;gap:1rem;">
+
+    <a href="{{ url_for('index') }}" class="btn-back">
+      <svg viewBox="0 0 24 24" stroke-width="1.5">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      New Analysis
+    </a>
+
+    <button id="themeToggle" class="theme-btn">
+      🌙
+    </button>
+
+  </div>
+</nav>
+
+  <div class="page">
+
+    <!-- Report Header -->
+    <div class="report-header">
+      <div>
+        <p class="report-eyebrow">Risk Intelligence Report</p>
+        <h1 class="report-title">Contract Analysis<br>Complete</h1>
+        <p class="report-timestamp">Generated just now · Analyzed with DistilBERT NLP</p>
+      </div>
+      <div class="risk-badge {{ result.risk_level | lower }}" style="margin-top:0.5rem; flex-shrink:0;">
+        <span>●</span>
+        {{ result.risk_level }} Risk
+      </div>
+    </div>
+
+    <!-- Metrics Row -->
+    <div class="metrics-grid">
+      <div class="metric-card primary">
+        <div class="metric-label">Overall Risk Score</div>
+        <div class="metric-value risk-{{ result.risk_level | lower }}">{{ result.overall_score }}%</div>
+        <div class="metric-sub">Weighted probability</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Risk Level</div>
+        <div class="metric-value risk-{{ result.risk_level | lower }}" style="font-size:2.2rem;">{{ result.risk_level }}</div>
+        <div class="metric-sub">
+          {% if result.risk_level == 'High' %}Score ≥ 65%{% elif result.risk_level == 'Moderate' %}Score 35–64%{% else %}Score &lt; 35%{% endif %}
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">High-Risk Clauses</div>
+        <div class="metric-value" style="color: #e06060;">{{ result.high_risk_clauses | length }}</div>
+        <div class="metric-sub">Flagged for review</div>
+      </div>
+    </div>
+
+    <!-- Chart + Progress -->
+    <div class="score-section">
+      <div class="chart-card">
+        <div class="chart-wrap">
+          <canvas id="riskChart"></canvas>
+          <div class="chart-center">
+            <div class="chart-center-score risk-{{ result.risk_level | lower }}">{{ result.overall_score }}%</div>
+            <div class="chart-center-label">Risk</div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-row">
+            <span class="legend-label"><span class="legend-dot" style="background:#e06060;"></span>High risk</span>
+            <span class="legend-val">{{ result.overall_score }}%</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-label"><span class="legend-dot" style="background:#2a2a3a;"></span>Safe</span>
+            <span class="legend-val">{{ (100 - result.overall_score) | round(2) }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-card">
+        <div class="progress-title">Risk Exposure Meter</div>
+        <div class="risk-meter">
+          <div class="risk-meter-fill {{ result.risk_level | lower }}" id="riskMeterFill" style="width: 0%;"></div>
+        </div>
+        <div class="risk-scale">
+          <span>0% — Safe</span>
+          <span>35% — Moderate</span>
+          <span>65% — High</span>
+          <span>100%</span>
+        </div>
+
+        <div class="breakdown-list">
+          <div class="breakdown-row">
+            <span class="breakdown-label">High risk clauses</span>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar" id="barHigh" style="width: 0%; background: #e06060;"></div>
+            </div>
+            <span class="breakdown-count">{{ result.high_risk_clauses | length }}</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Risk score contribution</span>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar" id="barScore" style="width: 0%; background: var(--gold);"></div>
+            </div>
+            <span class="breakdown-count">{{ result.overall_score }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clause List -->
+    <div class="clauses-section">
+      <div class="clauses-header">
+        <div class="clauses-title">
+          High-Risk Clauses
+        </div>
+        <span class="clauses-count">{{ result.high_risk_clauses | length }} flagged</span>
+      </div>
+
+      {% if result.high_risk_clauses %}
+        {% for c in result.high_risk_clauses %}
+        <div class="clause-item">
+          <div class="clause-item-header">
+            <span class="clause-number">Clause {{ loop.index }}</span>
+            <span class="clause-prob">{{ c.high_prob }}% risk probability</span>
+          </div>
+          <div class="clause-text">{{ c.clause }}</div>
+          <div class="clause-meta">
+            <span class="clause-tag">{{ c.pred }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-risk">
+          <div class="no-risk-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3>No high-risk clauses detected</h3>
+          <p>The contract appears to have low overall risk exposure.</p>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <script>
+    const score = {{ result.overall_score | default(0) }};
+    const riskLevel = "{{ result.risk_level | lower }}";
+    const clauseCount = {{ result.high_risk_clauses | length }};
+
+    // — Doughnut chart —
+    const colors = { high: '#e06060', moderate: '#d4974a', low: '#5aac82' };
+    const activeColor = colors[riskLevel] || '#e06060';
+
+    const ctx = document.getElementById('riskChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [score, 100 - score],
+          backgroundColor: [activeColor, '#1e1e2c'],
+          borderWidth: 0,
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        cutout: '76%',
+        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+        animation: { duration: 1200, easing: 'easeOutQuart' }
+      }
+    });
+
+    // — Progress bar —
+    setTimeout(() => {
+      document.getElementById('riskMeterFill').style.width = Math.min(score, 100) + '%';
+      const maxClauses = Math.max(clauseCount, 10);
+      document.getElementById('barHigh').style.width = Math.min((clauseCount / maxClauses) * 100, 100) + '%';
+      document.getElementById('barScore').style.width = Math.min(score, 100) + '%';
+    }, 200);
+  </script>
+
+<script>
+const toggleBtn = document.getElementById("themeToggle");
+
+function applyTheme(theme){
+  document.documentElement.setAttribute("data-theme",theme);
+
+  toggleBtn.textContent =
+    theme==="light"
+      ? "☀️"
+      : "🌙";
+}
+
+const savedTheme =
+  localStorage.getItem("theme") || "dark";
+
+applyTheme(savedTheme);
+
+toggleBtn.addEventListener("click",()=>{
+
+  const next =
+    document.documentElement.getAttribute("data-theme")==="dark"
+      ? "light"
+      : "dark";
+
+  localStorage.setItem("theme",next);
+
+  applyTheme(next);
+});
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+.env
+uploads/*
+model/
+testing_contract.pdf
